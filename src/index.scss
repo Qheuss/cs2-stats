@@ -1,20 +1,12 @@
-// @font-face {
-//   font-family: 'Roboto';
-//   src: url('/fonts/Roboto-Regular.ttf') format('truetype');
-//   font-weight: normal;
-//   font-style: normal;
-//   font-display: swap;
-// }
+@font-face {
+  font-family: 'Stratum2';
+  src: url('/fonts/stratum2-regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
 
-// @font-face {
-//   font-family: 'Roboto';
-//   src: url('/fonts/Roboto-Bold.ttf') format('truetype');
-//   font-weight: bold;
-//   font-style: normal;
-//   font-display: swap;
-// }
-
-// $Roboto: 'Roboto', sans-serif;
+$Stratum2: 'Stratum2', sans-serif;
 
 * {
   padding: 0;
@@ -34,8 +26,12 @@ html {
 }
 
 body {
-  // font-family: $Roboto;
+  font-family: $Stratum2;
   overflow-x: hidden;
+  background-image: url(/src/assets/images/Counter-Strike_2_Website_Background.png);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
 }
 
 li {
@@ -51,7 +47,20 @@ h6 {
   font-weight: bold;
 }
 
-footer {
-  background-color: #f1f1f1;
+a {
+  color: black;
+}
+
+.container {
+  margin: auto;
+  width: 128rem;
+}
+
+h1 {
+  font-size: 4.8rem;
+  padding: 7rem;
+  color: white;
+  font-style: italic;
+  text-shadow: black 1px 0 10px;
   text-align: center;
 }

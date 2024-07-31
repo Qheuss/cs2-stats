@@ -1,0 +1,18 @@
+header {
+  padding: 1rem;
+  background-color: #d66c12;
+  div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    svg {
+      height: 5rem;
+      width: 3rem;
+    }
+    ul {
+      display: flex;
+      gap: 2rem;
+      font-size: 1.8rem;
+    }
+  }
+}

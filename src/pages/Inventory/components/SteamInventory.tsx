@@ -1,77 +1,58 @@
-import React, { useState, useEffect } from 'react';
+// src/components/Inventory.tsx
+import React, { useEffect, useState } from 'react';
+import { fetchInventory } from '../services/api';
 
-interface PlayerData {
-  steamid: string;
-  personaname: string;
-  profileurl: string;
-  avatar: string;
+interface InventoryItem {
+  id: number;
+  marketname: string;
+  pricereal: number;
+  image: string;
 }
 
-const App: React.FC = () => {
-  const [playerData, setPlayerData] = useState<PlayerData | null>(null);
+const SteamInventory: React.FC = () => {
+  const [inventory, setInventory] = useState<InventoryItem[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchPlayerData = async () => {
+    const getInventory = async () => {
       try {
-        const apiKey = import.meta.env.VITE_STEAM_API_KEY;
-        const steamID = '76561198204145631'; // Replace with the actual Steam ID you want to query
-
-        // CORS proxy URL
-        const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
-        // Target API URL
-        const targetUrl = `https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/?key=${apiKey}&steamids=${steamID}`;
-
-        // Fetch data from the CORS proxy
-        const response = await fetch(proxyUrl + targetUrl, {
-          method: 'GET',
-          headers: {
-            Accept: 'application/json',
-          },
-        });
-
-        // Check for a successful response
-        if (!response.ok) {
-          throw new Error(
-            `Network response was not ok: ${response.statusText}`
-          );
-        }
-
-        // Parse the JSON data
-        const data = await response.json();
-        // Set player data to state
-        setPlayerData(data.response.players[0]);
-      } catch (error) {
-        // Handle any errors
-        setError(`Failed to fetch player data: ${error.message}`);
-        console.error('Error fetching player data:', error);
+        const data = await fetchInventory();
+        setInventory(data);
+        setLoading(false);
+      } catch (err) {
+        setError('Failed to fetch inventory');
+        setLoading(false);
       }
     };
 
-    // Fetch player data on component mount
-    fetchPlayerData();
+    getInventory();
   }, []);
 
-  // Render error if exists
-  if (error) {
-    return <div>Error: {error}</div>;
-  }
-
-  // Render loading state
-  if (!playerData) {
+  if (loading) {
     return <div>Loading...</div>;
   }
 
-  // Render player data
+  if (error) {
+    return <div>{error}</div>;
+  }
+
   return (
-    <div>
-      <h1>{playerData.personaname}</h1>
-      <img src={playerData.avatar} alt={playerData.personaname} />
-      <a href={playerData.profileurl} target='_blank' rel='noopener noreferrer'>
-        Profile
-      </a>
-    </div>
+    <ul className='InventoryDisplay'>
+      {inventory.map((item) => (
+        <li className='inventoryItemCard' key={crypto.randomUUID()}>
+          <div className='inventoryBackground'></div>
+          <div className='inventoryItemImage'>
+            <img src={item.image} alt={item.marketname} />
+          </div>
+          <div className='inventoryItemInfos'>
+            <div>{item.marketname}</div>
+            <div>{item.pricereal} $</div>
+          </div>
+        </li>
+      ))}
+    </ul>
   );
 };
 
-export default App;
+export default SteamInventory;
