@@ -2,11 +2,12 @@
 import React, { useEffect, useState } from 'react';
 import { fetchInventory } from '../services/api';
 import SearchInput from './SearchInput';
+import TotalPrice from './TotalPrice';
 
 interface InventoryItem {
   id: number;
   marketname: string;
-  pricereal: number;
+  pricesafe24h: number;
   image: string;
 }
 
@@ -35,6 +36,14 @@ const SteamInventory: React.FC = () => {
     item.marketname.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
+  function TotalPriceCalc() {
+    let price = 0;
+    for (let i = 0; i < filteredInventory.length; i++) {
+      price += filteredInventory[i].pricesafe24h;
+    }
+    return Number(price.toFixed(2));
+  }
+
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -45,8 +54,14 @@ const SteamInventory: React.FC = () => {
 
   return (
     <>
-      <SearchInput searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
-      <ul className='InventoryDisplay'>
+      <div className='InventoryInfos'>
+        <SearchInput
+          searchQuery={searchQuery}
+          setSearchQuery={setSearchQuery}
+        />
+        <TotalPrice TotalPrice={TotalPriceCalc()} />
+      </div>
+      <ul className='inventoryDisplay'>
         {filteredInventory.map((item) => (
           <li className='inventoryItemCard' key={crypto.randomUUID()}>
             <div className='inventoryBackground'></div>
@@ -55,7 +70,7 @@ const SteamInventory: React.FC = () => {
             </div>
             <div className='inventoryItemInfos'>
               <div>{item.marketname}</div>
-              <div>{item.pricereal} $</div>
+              <div>{item.pricesafe24h} €</div>
             </div>
           </li>
         ))}

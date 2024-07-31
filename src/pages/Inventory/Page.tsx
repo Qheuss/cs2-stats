@@ -8,8 +8,7 @@ const Page = () => {
       <Header />
       <section className='inventory'>
         <SidePanel />
-
-        <div>
+        <div className='inventoryList'>
           <h1>Inventory</h1>
           <SteamInventory />
         </div>

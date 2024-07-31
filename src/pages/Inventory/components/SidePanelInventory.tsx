@@ -1,6 +1,7 @@
 const SidePanelInventory = () => {
   return (
     <aside>
+      <img src='/vite.svg' alt='profile picture' />
       <h2>Sort by</h2>
       <ul>
         <li>Price</li>
