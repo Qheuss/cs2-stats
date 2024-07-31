@@ -1,6 +1,7 @@
-// src/components/Inventory.tsx
+// src/components/SteamInventory.tsx
 import React, { useEffect, useState } from 'react';
 import { fetchInventory } from '../services/api';
+import SearchInput from './SearchInput';
 
 interface InventoryItem {
   id: number;
@@ -13,6 +14,7 @@ const SteamInventory: React.FC = () => {
   const [inventory, setInventory] = useState<InventoryItem[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useState<string>('');
 
   useEffect(() => {
     const getInventory = async () => {
@@ -29,6 +31,10 @@ const SteamInventory: React.FC = () => {
     getInventory();
   }, []);
 
+  const filteredInventory = inventory.filter((item) =>
+    item.marketname.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -38,20 +44,23 @@ const SteamInventory: React.FC = () => {
   }
 
   return (
-    <ul className='InventoryDisplay'>
-      {inventory.map((item) => (
-        <li className='inventoryItemCard' key={crypto.randomUUID()}>
-          <div className='inventoryBackground'></div>
-          <div className='inventoryItemImage'>
-            <img src={item.image} alt={item.marketname} />
-          </div>
-          <div className='inventoryItemInfos'>
-            <div>{item.marketname}</div>
-            <div>{item.pricereal} $</div>
-          </div>
-        </li>
-      ))}
-    </ul>
+    <>
+      <SearchInput searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+      <ul className='InventoryDisplay'>
+        {filteredInventory.map((item) => (
+          <li className='inventoryItemCard' key={crypto.randomUUID()}>
+            <div className='inventoryBackground'></div>
+            <div className='inventoryItemImage'>
+              <img src={item.image} alt={item.marketname} />
+            </div>
+            <div className='inventoryItemInfos'>
+              <div>{item.marketname}</div>
+              <div>{item.pricereal} $</div>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </>
   );
 };
 
