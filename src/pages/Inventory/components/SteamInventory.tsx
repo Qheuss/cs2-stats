@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from 'react';
 import { fetchInventory } from '../services/api';
 import SearchInput from './SearchInput';
-import TotalPrice from './TotalPrice';
 
 interface InventoryItem {
   id: number;
@@ -59,7 +58,7 @@ const SteamInventory: React.FC = () => {
           searchQuery={searchQuery}
           setSearchQuery={setSearchQuery}
         />
-        <TotalPrice TotalPrice={TotalPriceCalc()} />
+        <span>{TotalPriceCalc()} €</span>
       </div>
       <ul className='inventoryDisplay'>
         {filteredInventory.map((item) => (
