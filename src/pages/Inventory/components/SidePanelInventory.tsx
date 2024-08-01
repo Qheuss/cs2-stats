@@ -1,7 +1,9 @@
+import { GiTakeMyMoney } from 'react-icons/gi';
+
 const SidePanelInventory = () => {
   return (
     <aside>
-      <img src='/vite.svg' alt='profile picture' />
+      <GiTakeMyMoney />
       <h2>Sort by</h2>
       <ul>
         <li>Price</li>

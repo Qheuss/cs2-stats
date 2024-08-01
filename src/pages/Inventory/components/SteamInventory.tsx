@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { fetchInventory } from '../services/api';
+import { fetchInventory } from '../utils/api';
 import SearchInput from './SearchInput';
-import useExchangeRate from '../../../components/useExchangeRate';
+import useExchangeRate from '../utils/useExchangeRate';
 import SteamIdInput from './SteamIdInput';
 import { FaArrowsRotate } from 'react-icons/fa6';
 

@@ -1,3 +1,4 @@
+import Footer from '../../components/Footer';
 import Header from '../../components/Header';
 import SidePanel from './components/SidePanelInventory';
 import SteamInventory from './components/SteamInventory';
@@ -13,6 +14,7 @@ const Page = () => {
           <SteamInventory />
         </div>
       </section>
+      <Footer />
     </>
   );
 };
