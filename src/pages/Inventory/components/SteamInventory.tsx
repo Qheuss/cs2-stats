@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { fetchInventory } from '../utils/api';
 import SearchInput from './SearchInput';
 import useExchangeRate from '../utils/useExchangeRate';
-import SteamIdInput from './SteamIdInput';
+import SearchIdInput from './SearchIdInput';
 import { FaArrowsRotate } from 'react-icons/fa6';
 
 interface InventoryItem {
@@ -113,7 +113,7 @@ const SteamInventory: React.FC = () => {
     );
   } else {
     return (
-      <SteamIdInput
+      <SearchIdInput
         searchIdQuery={searchIdQuery}
         setSearchIdQuery={setSearchIdQuery}
       />

@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 
-interface SteamIdInputProps {
+interface SearchIdInputProps {
   searchIdQuery: string;
   setSearchIdQuery: (query: string) => void;
 }
 
-const SteamIdInput: React.FC<SteamIdInputProps> = ({
+const SearchIdInput: React.FC<SearchIdInputProps> = ({
   searchIdQuery,
   setSearchIdQuery,
 }) => {
@@ -19,18 +19,19 @@ const SteamIdInput: React.FC<SteamIdInputProps> = ({
     setSearchIdQuery(inputValue);
   };
   return (
-    <>
+    <div className='searchId'>
       <input
-        id='searchSteamId'
-        className='searchItems'
+        className='searchIdInput'
         type='text'
-        placeholder='Type here you steam id'
+        placeholder='Type your steam id here'
         value={inputValue}
         onChange={handleInputChange}
       />
-      <button onClick={handleButtonClick}>Search</button>
-    </>
+      <button className='searchIdButton' onClick={handleButtonClick}>
+        Show inventory
+      </button>
+    </div>
   );
 };
 
-export default SteamIdInput;
+export default SearchIdInput;

@@ -1,5 +1,43 @@
 .inventoryList {
   margin: 0 auto;
+  .searchId {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    padding: 10rem 0;
+    .searchIdInput {
+      border: none;
+      font-size: 1.6rem;
+      text-align: center;
+      height: 4rem;
+      width: 30rem;
+      padding: 0.5rem;
+      border-radius: 0.5rem;
+      outline: none;
+      backdrop-filter: blur(3px);
+      -webkit-backdrop-filter: blur(3px);
+      background: rgba(255, 255, 255, 0.8);
+      &:focus {
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+        &::placeholder {
+          color: transparent;
+        }
+      }
+    }
+    .searchIdButton {
+      border: none;
+      border-radius: 0.5rem;
+      padding: 1rem;
+      transition: all 0.2s;
+      background-color: white;
+      color: #d36611;
+      &:hover {
+        background-color: #d36611;
+        color: white;
+      }
+    }
+  }
   .InventoryInfos {
     display: flex;
     align-items: center;
