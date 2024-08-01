@@ -1,12 +1,14 @@
-// src/components/SteamInventory.tsx
 import React, { useEffect, useState } from 'react';
 import { fetchInventory } from '../services/api';
 import SearchInput from './SearchInput';
+import useExchangeRate from '../../../components/useExchangeRate';
+import SteamIdInput from './SteamIdInput';
+import { FaArrowsRotate } from 'react-icons/fa6';
 
 interface InventoryItem {
   id: number;
   marketname: string;
-  pricesafe24h: number;
+  pricelatest: number;
   image: string;
 }
 
@@ -15,11 +17,15 @@ const SteamInventory: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState<string>('');
+  const [searchIdQuery, setSearchIdQuery] = useState<string>('');
+  let exchangeRate = useExchangeRate();
+
+  const STEAM_ID = searchIdQuery;
 
   useEffect(() => {
     const getInventory = async () => {
       try {
-        const data = await fetchInventory();
+        const data = await fetchInventory(STEAM_ID);
         setInventory(data);
         setLoading(false);
       } catch (err) {
@@ -27,9 +33,10 @@ const SteamInventory: React.FC = () => {
         setLoading(false);
       }
     };
-
-    getInventory();
-  }, []);
+    if (STEAM_ID) {
+      getInventory();
+    }
+  }, [STEAM_ID]);
 
   const filteredInventory = inventory.filter((item) =>
     item.marketname.toLowerCase().includes(searchQuery.toLowerCase())
@@ -38,44 +45,76 @@ const SteamInventory: React.FC = () => {
   function TotalPriceCalc() {
     let price = 0;
     for (let i = 0; i < filteredInventory.length; i++) {
-      price += filteredInventory[i].pricesafe24h;
+      price += filteredInventory[i].pricelatest;
     }
-    return Number(price.toFixed(2));
+    if (exchangeRate === null) {
+      exchangeRate = 1;
+    }
+    return (Number(price) * exchangeRate).toFixed(2);
   }
 
-  if (loading) {
-    return <div>Loading...</div>;
+  function resetId() {
+    return setSearchIdQuery('');
   }
 
-  if (error) {
-    return <div>{error}</div>;
-  }
+  if (STEAM_ID.length > 0) {
+    if (loading) {
+      return <div>Loading...</div>;
+    }
 
-  return (
-    <>
-      <div className='InventoryInfos'>
-        <SearchInput
-          searchQuery={searchQuery}
-          setSearchQuery={setSearchQuery}
-        />
-        <span>{TotalPriceCalc()} €</span>
-      </div>
-      <ul className='inventoryDisplay'>
-        {filteredInventory.map((item) => (
-          <li className='inventoryItemCard' key={crypto.randomUUID()}>
-            <div className='inventoryBackground'></div>
-            <div className='inventoryItemImage'>
-              <img src={item.image} alt={item.marketname} />
-            </div>
-            <div className='inventoryItemInfos'>
-              <div>{item.marketname}</div>
-              <div>{item.pricesafe24h} €</div>
-            </div>
-          </li>
-        ))}
-      </ul>
-    </>
-  );
+    if (error) {
+      return (
+        <div>
+          {error} <a onClick={resetId}>retry</a>
+        </div>
+      );
+    }
+
+    return (
+      <>
+        <div className='InventoryInfos'>
+          <SearchInput
+            searchQuery={searchQuery}
+            setSearchQuery={setSearchQuery}
+          />
+          <div>
+            <p>test</p>
+            <a onClick={resetId}>
+              <FaArrowsRotate />
+            </a>
+          </div>
+          {/* <span>Total:{TotalPriceCalc()}</span> */}
+          <span>Total: {TotalPriceCalc()} €</span>
+        </div>
+        <ul className='inventoryDisplay'>
+          {filteredInventory.map((item) => (
+            <li className='inventoryItemCard' key={crypto.randomUUID()}>
+              <div className='inventoryBackground'></div>
+              <div className='inventoryItemImage'>
+                <img src={item.image} alt={item.marketname} />
+              </div>
+              <div className='inventoryItemInfos'>
+                <div>{item.marketname}</div>
+                <div>
+                  {exchangeRate !== null
+                    ? (item.pricelatest * exchangeRate).toFixed(2)
+                    : item.pricelatest}
+                  €
+                </div>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </>
+    );
+  } else {
+    return (
+      <SteamIdInput
+        searchIdQuery={searchIdQuery}
+        setSearchIdQuery={setSearchIdQuery}
+      />
+    );
+  }
 };
 
 export default SteamInventory;
