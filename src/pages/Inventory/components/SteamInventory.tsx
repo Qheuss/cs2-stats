@@ -24,12 +24,16 @@ const SteamInventory: React.FC = () => {
 
   useEffect(() => {
     const getInventory = async () => {
+      setLoading(true);
+      setError(null);
       try {
         const data = await fetchInventory(STEAM_ID);
         setInventory(data);
-        setLoading(false);
+        // setLoading(false);
       } catch (err) {
         setError('Failed to fetch inventory');
+        // setLoading(false);
+      } finally {
         setLoading(false);
       }
     };
