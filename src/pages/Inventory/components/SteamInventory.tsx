@@ -4,6 +4,7 @@ import SearchInput from './SearchInput';
 import useExchangeRate from '../utils/useExchangeRate';
 import SearchIdInput from './SearchIdInput';
 import { FaArrowsRotate } from 'react-icons/fa6';
+import SidePanelInventory from './SidePanelInventory';
 
 interface InventoryItem {
   id: number;
@@ -63,60 +64,112 @@ const SteamInventory: React.FC = () => {
 
   if (STEAM_ID.length > 0) {
     if (loading) {
-      return <div>Loading...</div>;
+      return (
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            minHeight: '100vh',
+            fontSize: '2rem',
+          }}
+        >
+          Loading...
+        </div>
+      );
     }
 
     if (error) {
       return (
-        <div>
-          {error} <a onClick={resetId}>retry</a>
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
+            minHeight: '100vh',
+            gap: '1rem',
+            fontSize: '2rem',
+          }}
+        >
+          {error}
+          <a
+            style={{
+              color: 'white',
+              fontStyle: 'underline',
+              backgroundColor: 'black',
+              padding: '0.7rem',
+              borderRadius: '0.5rem',
+            }}
+            onClick={resetId}
+          >
+            Retry
+          </a>
         </div>
       );
     }
 
     return (
-      <>
-        <div className='InventoryInfos'>
-          <SearchInput
-            searchQuery={searchQuery}
-            setSearchQuery={setSearchQuery}
-          />
-          <div>
-            <p>test</p>
-            <a onClick={resetId}>
-              <FaArrowsRotate />
-            </a>
+      <div className='inventoryList'>
+        <SidePanelInventory />
+        <div className='InventoryContent'>
+          <h1>Inventory</h1>
+          <div className='InventoryInfos'>
+            <SearchInput
+              searchQuery={searchQuery}
+              setSearchQuery={setSearchQuery}
+            />
+            <div className='totalAndReset'>
+              <a onClick={resetId}>
+                <FaArrowsRotate />
+              </a>
+
+              <span>
+                Total: {TotalPriceCalc()}
+                {exchangeRate !== null ? ' €' : ' $'}
+              </span>
+            </div>
           </div>
-          {/* <span>Total:{TotalPriceCalc()}</span> */}
-          <span>Total: {TotalPriceCalc()} €</span>
-        </div>
-        <ul className='inventoryDisplay'>
-          {filteredInventory.map((item) => (
-            <li className='inventoryItemCard' key={crypto.randomUUID()}>
-              <div className='inventoryBackground'></div>
-              <div className='inventoryItemImage'>
-                <img src={item.image} alt={item.marketname} />
-              </div>
-              <div className='inventoryItemInfos'>
-                <div>{item.marketname}</div>
-                <div>
-                  {exchangeRate !== null
-                    ? (item.pricelatest * exchangeRate).toFixed(2)
-                    : item.pricelatest}
-                  €
+          <ul className='inventoryDisplay'>
+            {filteredInventory.map((item) => (
+              <li className='inventoryItemCard' key={crypto.randomUUID()}>
+                <div className='inventoryBackground'></div>
+                <div className='inventoryItemImage'>
+                  <img src={item.image} alt={item.marketname} />
                 </div>
-              </div>
-            </li>
-          ))}
-        </ul>
-      </>
+                <div className='inventoryItemInfos'>
+                  <div>{item.marketname}</div>
+                  <div>
+                    {exchangeRate !== null
+                      ? (item.pricelatest * exchangeRate).toFixed(2) + ' €'
+                      : item.pricelatest + ' $'}
+                  </div>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
     );
   } else {
     return (
-      <SearchIdInput
-        searchIdQuery={searchIdQuery}
-        setSearchIdQuery={setSearchIdQuery}
-      />
+      <div className='inventorySearchId'>
+        <SearchIdInput
+          searchIdQuery={searchIdQuery}
+          setSearchIdQuery={setSearchIdQuery}
+        />
+        <div className='whereIsSteamId'>
+          <h3>To find your Steam ID:</h3>
+          <ul>
+            <li>
+              In the Steam desktop application, select your Steam username in
+              the top right corner of the screen.
+            </li>
+            <li>Select "Account details".</li>
+            <li>Your Steam ID can be found below your Steam username.</li>
+          </ul>
+        </div>
+      </div>
     );
   }
 };

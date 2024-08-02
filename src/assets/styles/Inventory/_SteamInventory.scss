@@ -1,0 +1,131 @@
+.inventoryList {
+  display: flex;
+  justify-content: space-between;
+  margin: 0 auto;
+  .InventoryContent {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .totalAndReset {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 2rem;
+      a {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+
+        svg {
+          width: 2.8rem;
+          height: 2.8rem;
+          color: rgb(227, 54, 54);
+          background-color: rgb(255, 255, 255);
+          border-radius: 3rem;
+          padding: 0.5rem;
+          transition: all 0.5s;
+        }
+        &:hover {
+          svg {
+            transform: rotate(90deg);
+          }
+          &::after {
+            content: 'Reset';
+            position: absolute;
+            background-color: rgba(0, 0, 0, 0.229);
+            color: white;
+            padding: 0.5rem;
+            border-radius: 0.4rem;
+            font-size: 1rem;
+            top: -100%;
+            left: 50%;
+            transform: translateX(-50%);
+            white-space: nowrap;
+          }
+        }
+      }
+    }
+    .InventoryInfos {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 8.5rem;
+      width: 100%;
+      max-width: 110rem;
+      .searchItems {
+        border: none;
+        height: 2.5rem;
+        padding: 0.5rem;
+        border-radius: 0.5rem;
+      }
+      span {
+        font-size: 1.8rem;
+        padding: 0.5rem;
+        border-radius: 0.5rem;
+        background-color: white;
+        box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+        display: flex;
+        gap: 0.5rem;
+      }
+    }
+    .inventoryDisplay {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 4rem;
+      padding-bottom: 5rem;
+      max-width: 110rem;
+      .inventoryItemCard {
+        position: relative;
+        height: 15rem;
+        width: 15rem;
+        box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+        cursor: pointer;
+        transition: scale 0.2s;
+        border-radius: 1rem;
+        &:hover {
+          scale: 1.1;
+        }
+        .inventoryBackground {
+          height: 100%;
+          width: 100%;
+          background: rgba(255, 255, 255, 0.1);
+          border-radius: 1rem;
+          box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+          backdrop-filter: blur(3px);
+          -webkit-backdrop-filter: blur(3px);
+          border: 1px solid rgba(255, 255, 255, 0.22);
+        }
+        .inventoryItemImage {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          img {
+            position: absolute;
+            top: 15%;
+            max-height: 100%;
+            width: 100%;
+            padding: 1rem;
+          }
+        }
+        .inventoryItemInfos {
+          height: 100%;
+          position: absolute;
+          color: white;
+          font-size: 1.2rem;
+          width: 100%;
+          top: 0;
+          left: 0;
+          text-align: center;
+          padding: 0.5rem;
+          text-shadow: black 0.01rem 0 6px;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+        }
+      }
+    }
+  }
+}

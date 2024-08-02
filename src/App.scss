@@ -1,7 +1,8 @@
-@import './assets/scss/variables';
-@import './assets/scss/header';
-@import './assets/scss/footer';
+@import './assets/styles/variables';
+@import './assets/styles/header';
+@import './assets/styles/footer';
 
-@import './assets/scss/Inventory/Inventory';
-@import './assets/scss/Inventory/SteamInventory';
-@import './assets/scss/Inventory/SidePanelInventory';
+@import './assets/styles/Inventory/Inventory';
+@import './assets/styles/Inventory/SteamInventory';
+@import './assets/styles/Inventory/SidePanelInventory';
+@import './assets/styles/Inventory/SearchId';
